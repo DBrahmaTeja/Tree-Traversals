@@ -105,60 +105,63 @@ void levelordertraversal(Node *root)
             q.push(temp->right);
     }
 }
-vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
-         if(root==NULL)
-            return ans;
-        queue<TreeNode *>q;
-        if(root!=NULL)
-        q.push(root);
-        q.push(NULL);
-        vector<int>level;
-       
-        while(q.size()>1)
-        {        
-            TreeNode* temp=q.front();
-            q.pop();
-            if(temp==NULL)
-            {
-                q.push(NULL);
-                ans.push_back(level);
-                level.clear();              
-            }
-            else
-            {
-            level.push_back(temp->val);
-            if(temp->left!=NULL)
-                q.push(temp->left);
-            if(temp->right!=NULL)
-                q.push(temp->right);
-            }
-            
-        }
-        ans.push_back(level);
+vector<vector<int>> levelOrder(TreeNode *root)
+{
+    vector<vector<int>> ans;
+    if (root == NULL)
         return ans;
-        
-    }
-vector<vector<int>> levelOrder(TreeNode* root) {
-    vector<vector<int>>res;
-        if(!root) return 0;
-        queue<TreeNode*>q;
+    queue<TreeNode *> q;
+    if (root != NULL)
         q.push(root);
-        while(!q.empty())
+    q.push(NULL);
+    vector<int> level;
+
+    while (q.size() > 1)
+    {
+        TreeNode *temp = q.front();
+        q.pop();
+        if (temp == NULL)
         {
-            int sz = q.size();
-            vector<int>level;
-            for(int i=0;i<sz;i++)
-            {
-                TreeNode* node = q.front();
-                q.pop();
-                if(node->left != NULL) q.push(node->left);
-                if(node->right!= NULL) q.push(node->right);
-                level.push_back(node->val);
-            }
-            res.push_back(level);
+            q.push(NULL);
+            ans.push_back(level);
+            level.clear();
         }
-        return res;
+        else
+        {
+            level.push_back(temp->val);
+            if (temp->left != NULL)
+                q.push(temp->left);
+            if (temp->right != NULL)
+                q.push(temp->right);
+        }
+    }
+    ans.push_back(level);
+    return ans;
+}
+vector<vector<int>> levelOrder(TreeNode *root)
+{
+    vector<vector<int>> res;
+    if (!root)
+        return 0;
+    queue<TreeNode *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        int sz = q.size();
+        vector<int> level;
+        for (int i = 0; i < sz; i++)
+        {
+            TreeNode *node = q.front();
+            q.pop();
+            if (node->left != NULL)
+                q.push(node->left);
+            if (node->right != NULL)
+                q.push(node->right);
+            level.push_back(node->val);
+        }
+        res.push_back(level);
+    }
+    return res;
 }
 bool isSameTree(TreeNode *p, TreeNode *q)
 {
@@ -174,8 +177,6 @@ int maxnode(TreeNode *root)
         return INT_MIN;
     return max(root->val, max(maxnode(root->left), maxnode(root->right)));
 }
-
-
 
 vector<string> ans;
 void printall(TreeNode *root, vector<int> &path, int path_len)
@@ -218,56 +219,57 @@ The root-to-leaf path 4->9->1 represents the number 491.
 The root-to-leaf path 4->0 represents the number 40.
 Therefore, sum = 495 + 491 + 40 = 1026.
  int c=0;
-    void pathsumtoleaf(TreeNode * root,int sum)
+void pathsumtoleaf(TreeNode *root, int sum)
+{
+    if (root == NULL)
+        return;
+    if (root->left == NULL and root->right == NULL)
     {
-        if(root==NULL)
-            return ;
-        if(root->left==NULL and root->right==NULL)
-        {
-            sum=sum*10+root->val;
-           c+=sum;
-            return;
-        }
-        int k=sum*10+root->val;
-       pathsumtoleaf(root->left,k);
-       pathsumtoleaf(root->right,k);
-        
+        sum = sum * 10 + root->val;
+        c += sum;
+        return;
     }
-public:
-    int sumNumbers(TreeNode* root) {
-       pathsumtoleaf(root,0);
-       
-        return c;
-    }
+    int k = sum * 10 + root->val;
+    pathsumtoleaf(root->left, k);
+    pathsumtoleaf(root->right, k);
+}
 
+public:
+int sumNumbers(TreeNode *root)
+{
+    pathsumtoleaf(root, 0);
+
+    return c;
+}
 
 Q)
 
-bool hasPathSum(TreeNode* root, int targetSum) {
-        if(root==NULL)
-            return false;
-        if(root->left==NULL and root->right==NULL)
-        {
-            targetSum-=root->val;
-            if(targetSum==0)
-                return true;
-            return false;
-        }
-        return hasPathSum(root->left,targetSum-root->val) or hasPathSum(root->right,targetSum-root->val); 
-    }
-
-bool printAncestors(TreeNode * root,TreeNode *key)
+bool hasPathSum(TreeNode* root, int targetSum)
 {
-    if(root==NULL)
-    return false;
-    if(root==key)
+    if (root == NULL)
+        return false;
+    if (root->left == NULL and root->right == NULL)
     {
-        cout<<root->val<<endl;
+        targetSum -= root->val;
+        if (targetSum == 0)
+            return true;
+        return false;
+    }
+    return hasPathSum(root->left, targetSum - root->val) or hasPathSum(root->right, targetSum - root->val);
+}
+
+bool printAncestors(TreeNode *root, TreeNode *key)
+{
+    if (root == NULL)
+        return false;
+    if (root == key)
+    {
+        cout << root->val << endl;
         return true;
     }
-    if(printAncestors(root->left,key)|| printAncestors(root->right,key))
+    if (printAncestors(root->left, key) || printAncestors(root->right, key))
     {
-        cout<<root->val;
+        cout << root->val;
         return true;
     }
     return false;
